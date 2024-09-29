@@ -1,7 +1,7 @@
 ---
 title: "PS270 Final Project"
-author: "Your Name Here"
-description: "My final project"
+author: Ruby Sandeman
+description: My final project
 output:
   distill::distill_article:
     self_contained: false
@@ -11,4 +11,10 @@ output:
 
 ## Project thoughts
 
-I am interested in exploring data related to...
+I am interested in exploring data related to climate change. One idea I have for the project is analyzing the growth of renewable energy sources in Wisconsin and it's impact on reducing carbon emissions.
+
+Potential sources to use: Global Energy Data (BP Statistical Review), U.S. Energy Information Administration (EIA), or International Renewable Energy Agency (IRENA)
+
+Another project idea is analyzing global temperatures to highlight the increasing trend of warm temperatures--this may be too simple.  
+
+
