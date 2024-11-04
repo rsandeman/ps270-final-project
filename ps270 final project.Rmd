@@ -37,7 +37,7 @@ library(dplyr)
 library(tidyr)
 ```
 
-Changing the format
+Creating a plot
 ```{r fig.width = 12}
 covid_data <- covid_data %>% 
   mutate(Age.Group = case_when(
