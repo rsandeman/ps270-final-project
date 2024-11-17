@@ -15,19 +15,20 @@ I am interested in exploring data related to climate change. One idea I have for
 
 Potential sources to use: Global Energy Data (BP Statistical Review), U.S. Energy Information Administration (EIA), or International Renewable Energy Agency (IRENA)
 
-Another project idea is analyzing global temperatures to highlight the increasing trend of warm temperatures--this may be too simple.  
-#New Project Idea / Research Question
+Another project idea is analyzing global temperatures to highlight the increasing trend of warm temperatures--this may be too simple. 
+
+## New Project Idea / Research Question
 
 My research question is: How does COVID19 severity differ between vaccinated and unvaccinated individuals? I hypothesize that vaccinated individuals will have lower mortality rates and be less likely to require hospitalization compared to unvaccinated individuals. This research is relevant because skepticism surrounding the efficacy of COVID-19 vaccines persists.The dataset I am using consists of COVID-19 case data from a Chicago hospital, including information on the severity of each case. The explanatory variable is vaccination status, as this is expected to influence the outcome variable, which is the severity of the COVID-19 case. Severity is measured across a spectrum that includes case occurrence, hospitalization, and death. Vaccination status is tracked by the City of Chicago, which reports weekly rates of COVID-19 cases, hospitalizations, and deaths broken down by vaccine status. The outcome variable will be measured by the rate at which individuals in the cohort are either vaccinated or unvaccinated. If my hypothesis holds true, I expect to observe a pattern where unvaccinated individuals are more likely to contract COVID-19, be hospitalized, or die from the illness. Conversely, if unvaccinated individuals are less likely to experience severe outcomes, this would disprove my hypothesis.
 
 
-#Importing the dataset
+## Importing the dataset
 
 ```{r}
 covid_data <- read.csv("~/Desktop/PS270 Final Project/COVID-19_Outcomes_by_Vaccination_Status_-_Historical.csv")
 ```
 
-#Creating a barplot indicating the COVID19 severity between vaccinated and unvaccinated individuals
+## Creating a barplot indicating COVID19 severity between vaccinated and unvaccinated individuals
 
 ```{r}
 options(repos = c(CRAN = "https://cran.rstudio.com/"))
@@ -37,7 +38,7 @@ library(dplyr)
 library(tidyr)
 ```
 
-#Creating a plot
+## Creating a plot
 
 ```{r fig.width = 12}
 covid_data <- covid_data %>% 
@@ -47,7 +48,8 @@ covid_data <- covid_data %>%
   ))
 
 covid_data <- covid_data %>% 
-  mutate(Age.Group = factor(Age.Group, levels = c("18-29", "30-49", "50-64", "65+", "All")))
+  mutate(Age.Group = factor(Age.Group, levels = 
+                              c("18-29", "30-49", "50-64", "65+", "All")))
 
 covid_long <- covid_data %>%
   pivot_longer(cols = c(Unvaccinated.Rate, Vaccinated.Rate, Boosted.Rate),
@@ -63,5 +65,7 @@ ggplot(covid_long, aes(x = Age.Group, y = Rate, fill = Vaccination_Status)) +
   theme_minimal() +
   theme(plot.margin = margin(1, 1, 1, 1,"cm")) +
   scale_fill_manual(values = 
-                      c("Unvaccinated.Rate" = "mediumvioletred", "Vaccinated.Rate" = "turquoise", "Boosted.Rate" = "goldenrod1"))
+                      c("Unvaccinated.Rate" = "mediumvioletred", 
+                        "Vaccinated.Rate" = "turquoise", 
+                        "Boosted.Rate" = "goldenrod1"))
 ```
