@@ -55,7 +55,7 @@ covid_long <- covid_data %>%
 names_to = "Vaccination_Status",
 values_to = "Rate")
 
-ggplot(covid_long, aes(x = Age.Group, y = Rate, fill = Vaccination_Status)) +
+covid_plot <- ggplot(covid_long, aes(x = Age.Group, y = Rate, fill = Vaccination_Status)) +
   geom_bar(stat = "identity", position = "dodge") +
   facet_wrap(~ Outcome) +
   labs(title = "COVID-19 Severity by Vaccination Status and Age Group",
@@ -67,7 +67,28 @@ ggplot(covid_long, aes(x = Age.Group, y = Rate, fill = Vaccination_Status)) +
                       c("Unvaccinated.Rate" = "mediumvioletred", 
                         "Vaccinated.Rate" = "turquoise", 
                         "Boosted.Rate" = "goldenrod1"))
+covid_plot
 ```
 
 
+## Creating a regression table of COVID-19 severity by vaccination status
 
+```{r}
+covid_long <- covid_long %>% 
+  mutate(Vaccination_Status = 
+           factor(Vaccination_Status, levels = 
+                    c("Unvaccinated.Rate", "Vaccinated.Rate", "Boosted.Rate")))
+
+regmodel <- lm(Rate ~ Vaccination_Status + Age.Group, data = covid_long)
+library(broom)
+tidy(regmodel)
+```
+
+```{r}
+cases_model <- lm(Rate ~  Vaccination_Status, data = covid_long %>% filter(Outcome == "Cases"))
+cases_model
+```
+
+This regression model shows that unvaccinated individuals have a higher severity rate than boosted individuals. Unvaccinated people experience roughly 59 more cases per 100,000 people than those who are boosted. The model also shows that vaccinated individuals have a lower severity rate than boosted individuals. Vaccinated people experience 22 fewer cases per 100,000 people than those who are  boosted. 
+My hypothesis is correct, unvaccinated individuals are more likely to contract COVID-19. However, I might also want to make a regression model that examines the relationship between vaccination status and death and hospitalizations. Another thing that is important to note is that this model assumes all other variables, such as age, are constant. If I wanted a more in-depth understanding, I could include age as a covariate.
+One finding from this table that surprises me is that boosted individuals are more likely to contract COVID-19. Making two more regression models might help me determine whether this is a fluke. 
