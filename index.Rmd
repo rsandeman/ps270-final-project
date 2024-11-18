@@ -8,14 +8,13 @@ output:
 ---
 
 
-
 ## Project thoughts
 
 I am interested in exploring data related to climate change. One idea I have for the project is analyzing the growth of renewable energy sources in Wisconsin and it's impact on reducing carbon emissions.
 
 Potential sources to use: Global Energy Data (BP Statistical Review), U.S. Energy Information Administration (EIA), or International Renewable Energy Agency (IRENA)
 
-Another project idea is analyzing global temperatures to highlight the increasing trend of warm temperatures--this may be too simple. 
+Another project idea is analyzing global temperatures to highlight the increasing trend of warm temperatures---this may be too simple.
 
 ## New Project Idea / Research Question
 
@@ -28,7 +27,7 @@ My research question is: How does COVID19 severity differ between vaccinated and
 covid_data <- read.csv("~/Desktop/PS270 Final Project/COVID-19_Outcomes_by_Vaccination_Status_-_Historical.csv")
 ```
 
-## Creating a barplot indicating COVID19 severity between vaccinated and unvaccinated individuals
+#Creating a barplot indicating the COVID19 severity between vaccinated and unvaccinated individuals
 
 ```{r}
 options(repos = c(CRAN = "https://cran.rstudio.com/"))
@@ -48,15 +47,14 @@ covid_data <- covid_data %>%
   ))
 
 covid_data <- covid_data %>% 
-  mutate(Age.Group = factor(Age.Group, levels = 
-                              c("18-29", "30-49", "50-64", "65+", "All")))
+  mutate(Age.Group = factor(Age.Group, levels = c("18-29", "30-49", "50-64", "65+", "All")))
 
 covid_long <- covid_data %>%
   pivot_longer(cols = c(Unvaccinated.Rate, Vaccinated.Rate, Boosted.Rate),
 names_to = "Vaccination_Status",
 values_to = "Rate")
 
-ggplot(covid_long, aes(x = Age.Group, y = Rate, fill = Vaccination_Status)) +
+covid_plot <- ggplot(covid_long, aes(x = Age.Group, y = Rate, fill = Vaccination_Status)) +
   geom_bar(stat = "identity", position = "dodge") +
   facet_wrap(~ Outcome) +
   labs(title = "COVID-19 Severity by Vaccination Status and Age Group",
@@ -68,4 +66,28 @@ ggplot(covid_long, aes(x = Age.Group, y = Rate, fill = Vaccination_Status)) +
                       c("Unvaccinated.Rate" = "mediumvioletred", 
                         "Vaccinated.Rate" = "turquoise", 
                         "Boosted.Rate" = "goldenrod1"))
+covid_plot
 ```
+
+
+## Creating a regression table of COVID-19 severity by vaccination status
+
+```{r}
+covid_long <- covid_long %>% 
+  mutate(Vaccination_Status = 
+           factor(Vaccination_Status, levels = 
+                    c("Unvaccinated.Rate", "Vaccinated.Rate", "Boosted.Rate")))
+
+regmodel <- lm(Rate ~ Vaccination_Status + Age.Group, data = covid_long)
+library(broom)
+tidy(regmodel)
+```
+
+```{r}
+cases_model <- lm(Rate ~  Vaccination_Status, data = covid_long %>% filter(Outcome == "Cases"))
+cases_model
+```
+
+This regression model shows that unvaccinated individuals have a higher severity rate than boosted individuals. Unvaccinated people experience roughly 59 more cases per 100,000 people than those who are boosted. The model also shows that vaccinated individuals have a lower severity rate than boosted individuals. Vaccinated people experience 22 fewer cases per 100,000 people than those who are  boosted. 
+My hypothesis is correct, unvaccinated individuals are more likely to contract COVID-19. However, I might also want to make a regression model that examines the relationship between vaccination status and death and hospitalizations. Another thing that is important to note is that this model assumes all other variables, such as age, are constant. If I wanted a more in-depth understanding, I could include age as a covariate.
+One finding from this table that surprises me is that boosted individuals are more likely to contract COVID-19. Making two more regression models might help me determine whether this is a fluke. 
