@@ -18,7 +18,7 @@ library(ggplot2)
 library(dplyr)
 library(tidyr)
 
-covid_data <- read.csv("/Users/rubysandeman/Desktop/PS270 Final Project/COVID-19_Outcomes_by_Vaccination_Status_-_Historical.csv")
+covid_data <- read.csv("~/Desktop/POLISCI 270/COVID-19_Outcomes_by_Vaccination_Status_-_Historical.csv")
 
 covid_long <- covid_data |>
   pivot_longer(cols = c(Unvaccinated.Rate, Vaccinated.Rate, Boosted.Rate),
