@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.28/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["COVID-19_Outcomes_by_Vaccination_Status_-_Historical.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-1-1.png","index_files/figure-html5/unnamed-chunk-2-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1543,19 +1543,95 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-article">
-<h2 id="project-thoughts">Project thoughts</h2>
-<p>I am interested in exploring data related to climate change. One idea I have for the project is analyzing the growth of renewable energy sources in Wisconsin and it’s impact on reducing carbon emissions.</p>
-<p>Potential sources to use: Global Energy Data (BP Statistical Review), U.S. Energy Information Administration (EIA), or International Renewable Energy Agency (IRENA)</p>
-<p>Another project idea is analyzing global temperatures to highlight the increasing trend of warm temperatures–this may be too simple.</p>
-<h2 id="new-project-idea-research-question">New Project Idea / Research Question</h2>
-<p>My research question is: How does COVID19 severity differ between vaccinated and unvaccinated individuals? I hypothesize that vaccinated individuals will have lower mortality rates and be less likely to require hospitalization compared to unvaccinated individuals. This research is relevant because skepticism surrounding the efficacy of COVID-19 vaccines persists.The dataset I am using consists of COVID-19 case data from a Chicago hospital, including information on the severity of each case. The explanatory variable is vaccination status, as this is expected to influence the outcome variable, which is the severity of the COVID-19 case. Severity is measured across a spectrum that includes case occurrence, hospitalization, and death. Vaccination status is tracked by the City of Chicago, which reports weekly rates of COVID-19 cases, hospitalizations, and deaths broken down by vaccine status. The outcome variable will be measured by the rate at which individuals in the cohort are either vaccinated or unvaccinated. If my hypothesis holds true, I expect to observe a pattern where unvaccinated individuals are more likely to contract COVID-19, be hospitalized, or die from the illness. Conversely, if unvaccinated individuals are less likely to experience severe outcomes, this would disprove my hypothesis.</p>
-<h2 id="importing-the-dataset">Importing the dataset</h2>
+<h2 id="introduction">Introduction</h2>
+<p>My research question is: How does severity of COVID-19 differ between vaccinated and unvaccinated individuals? I hypothesize that vaccinated individuals will experience less severe outcomes from the virus compared to those who are unvaccinated. This research is relevant because skepticism surrounding the efficacy of COVID-19 vaccines persists. The dataset I am using consists of COVID-19 case data from a Chicago hospital, including information on the severity of each case. The explanatory variable is vaccination status, as this is expected to influence the outcome variable, which is the severity of the COVID-19 case. Severity is measured across a spectrum that includes case occurrence, hospitalization, and death. Vaccination status is tracked by the City of Chicago, which reports weekly rates of COVID-19 cases, hospitalizations, and deaths broken down by vaccine status. The outcome variable will be measured by the rate at which individuals in the cohort are either vaccinated or unvaccinated. If my hypothesis holds true, I expect to observe a pattern where unvaccinated individuals are more likely to contract COVID-19, be hospitalized, or die from the illness. Conversely, if unvaccinated individuals are less likely to experience severe outcomes, this would disprove my hypothesis.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>covid_data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='st'>"~/Desktop/PS270 Final Project/COVID-19_Outcomes_by_Vaccination_Status_-_Historical.csv"</span><span class='op'>)</span></span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>repos <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>CRAN <span class='op'>=</span> <span class='st'>"https://cran.rstudio.com/"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"knitr"</span>, <span class='st'>"ggplot2"</span>, <span class='st'>"dplyr"</span>, <span class='st'>"tidyr"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
+<pre><code>
+The downloaded binary packages are in
+    /var/folders/np/cfjxy5c56jv5hz60cpq8s1t40000gn/T//Rtmp1Jja5R/downloaded_packages</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://yihui.org/knitr/'>knitr</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyr.tidyverse.org'>tidyr</a></span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>covid_data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='st'>"COVID-19_Outcomes_by_Vaccination_Status_-_Historical.csv"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>covid_long</span> <span class='op'>&lt;-</span> <span class='va'>covid_data</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>pivot_longer</a></span><span class='op'>(</span>cols <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>Unvaccinated.Rate</span>, <span class='va'>Vaccinated.Rate</span>, <span class='va'>Boosted.Rate</span><span class='op'>)</span>,</span>
+<span>               names_to <span class='op'>=</span> <span class='st'>"Vaccination_Status"</span>,</span>
+<span>               values_to <span class='op'>=</span> <span class='st'>"Rate"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>covid_summary</span> <span class='op'>&lt;-</span> <span class='va'>covid_long</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Outcome</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span></span>
+<span>    Min <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='va'>Rate</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,</span>
+<span>    Q1 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span><span class='op'>(</span><span class='va'>Rate</span>, <span class='fl'>0.25</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,</span>
+<span>    Median <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/median.html'>median</a></span><span class='op'>(</span><span class='va'>Rate</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,</span>
+<span>    Mean <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>Rate</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,</span>
+<span>    Q3 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span><span class='op'>(</span><span class='va'>Rate</span>, <span class='fl'>0.75</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,</span>
+<span>    Max <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>Rate</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,</span>
+<span>    .groups <span class='op'>=</span> <span class='st'>"drop"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='va'>covid_summary</span>, caption <span class='op'>=</span> <span class='st'>"Summary of COVID-19 Rates by Outcome"</span>, digits <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span></code></pre>
 </div>
-<h2 id="creating-a-barplot-indicating-covid19-severity-between-vaccinated-and-unvaccinated-individuals">Creating a barplot indicating COVID19 severity between vaccinated and unvaccinated individuals</h2>
+<table>
+<caption><span id="tab:unnamed-chunk-1">Table 1: </span>Summary of COVID-19 Rates by Outcome</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Outcome</th>
+<th style="text-align: right;">Min</th>
+<th style="text-align: right;">Q1</th>
+<th style="text-align: right;">Median</th>
+<th style="text-align: right;">Mean</th>
+<th style="text-align: right;">Q3</th>
+<th style="text-align: right;">Max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Cases</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">31.33</td>
+<td style="text-align: right;">79.15</td>
+<td style="text-align: right;">149.67</td>
+<td style="text-align: right;">164.38</td>
+<td style="text-align: right;">3690.9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Deaths</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">1.96</td>
+<td style="text-align: right;">0.40</td>
+<td style="text-align: right;">199.5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Hospitalizations</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.90</td>
+<td style="text-align: right;">4.00</td>
+<td style="text-align: right;">14.14</td>
+<td style="text-align: right;">12.90</td>
+<td style="text-align: right;">549.0</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>covid_long</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Outcome</span>, y <span class='op'>=</span> <span class='va'>Rate</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span><span class='op'>(</span>fill <span class='op'>=</span> <span class='st'>"skyblue"</span>, color <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Distribution of COVID-19 Rates by Outcome"</span>,</span>
+<span>       x <span class='op'>=</span> <span class='st'>"Outcome"</span>,</span>
+<span>       y <span class='op'>=</span> <span class='st'>"Rate per 100,000"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-1-1.png" width="624" /></p>
+</div>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>repos <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>CRAN <span class='op'>=</span> <span class='st'>"https://cran.rstudio.com/"</span><span class='op'>)</span><span class='op'>)</span></span>
@@ -1563,47 +1639,148 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 <pre><code>
 The downloaded binary packages are in
-    /var/folders/np/cfjxy5c56jv5hz60cpq8s1t40000gn/T//RtmppTTVZB/downloaded_packages</code></pre>
+    /var/folders/np/cfjxy5c56jv5hz60cpq8s1t40000gn/T//Rtmp1Jja5R/downloaded_packages</code></pre>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span></span>
 <span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span></span>
-<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyr.tidyverse.org'>tidyr</a></span><span class='op'>)</span></span></code></pre>
-</div>
-</div>
-<h2 id="creating-a-plot">Creating a plot</h2>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>covid_data</span> <span class='op'>&lt;-</span> <span class='va'>covid_data</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>Age.Group <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span><span class='op'>(</span></span>
-<span>    <span class='va'>Age.Group</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"65-79"</span>, <span class='st'>"80+"</span><span class='op'>)</span> <span class='op'>~</span> <span class='st'>"65+"</span>,</span>
-<span>    <span class='cn'>TRUE</span> <span class='op'>~</span> <span class='va'>Age.Group</span></span>
-<span>  <span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyr.tidyverse.org'>tidyr</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://yihui.org/knitr/'>knitr</a></span><span class='op'>)</span></span>
 <span></span>
-<span><span class='va'>covid_data</span> <span class='op'>&lt;-</span> <span class='va'>covid_data</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>Age.Group <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>Age.Group</span>, levels <span class='op'>=</span> </span>
-<span>                              <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"18-29"</span>, <span class='st'>"30-49"</span>, <span class='st'>"50-64"</span>, <span class='st'>"65+"</span>, <span class='st'>"All"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
-<span></span>
-<span><span class='va'>covid_long</span> <span class='op'>&lt;-</span> <span class='va'>covid_data</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span><span class='va'>covid_long</span> <span class='op'>&lt;-</span> <span class='va'>covid_data</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>pivot_longer</a></span><span class='op'>(</span>cols <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>Unvaccinated.Rate</span>, <span class='va'>Vaccinated.Rate</span>, <span class='va'>Boosted.Rate</span><span class='op'>)</span>,</span>
 <span>names_to <span class='op'>=</span> <span class='st'>"Vaccination_Status"</span>,</span>
 <span>values_to <span class='op'>=</span> <span class='st'>"Rate"</span><span class='op'>)</span></span>
 <span></span>
-<span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>covid_long</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Age.Group</span>, y <span class='op'>=</span> <span class='va'>Rate</span>, fill <span class='op'>=</span> <span class='va'>Vaccination_Status</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span><span class='va'>covid_long</span> <span class='op'>&lt;-</span> <span class='va'>covid_long</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Outcome</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Hospitalizations"</span>, <span class='st'>"Cases"</span>, <span class='st'>"Deaths"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>covid_summary</span> <span class='op'>&lt;-</span> <span class='va'>covid_long</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Outcome</span>, <span class='va'>Vaccination_Status</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>Rate <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>Rate</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>, .groups <span class='op'>=</span> <span class='st'>"drop"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='va'>covid_summary</span>, </span>
+<span>      col.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Outcome"</span>, <span class='st'>"Vaccination Status"</span>, <span class='st'>"Average Rate per 100,000"</span><span class='op'>)</span>,</span>
+<span>      caption <span class='op'>=</span> <span class='st'>"Summary of COVID-19 Rates by Vaccination Status and Outcome"</span><span class='op'>)</span></span></code></pre>
+</div>
+<table>
+<caption><span id="tab:unnamed-chunk-2">Table 2: </span>Summary of COVID-19 Rates by Vaccination Status and Outcome</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Outcome</th>
+<th style="text-align: left;">Vaccination Status</th>
+<th style="text-align: right;">Average Rate per 100,000</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Cases</td>
+<td style="text-align: left;">Boosted.Rate</td>
+<td style="text-align: right;">134.7464160</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cases</td>
+<td style="text-align: left;">Unvaccinated.Rate</td>
+<td style="text-align: right;">193.6407937</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cases</td>
+<td style="text-align: left;">Vaccinated.Rate</td>
+<td style="text-align: right;">112.5653345</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Deaths</td>
+<td style="text-align: left;">Boosted.Rate</td>
+<td style="text-align: right;">0.6179641</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Deaths</td>
+<td style="text-align: left;">Unvaccinated.Rate</td>
+<td style="text-align: right;">3.0801932</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Deaths</td>
+<td style="text-align: left;">Vaccinated.Rate</td>
+<td style="text-align: right;">1.7190644</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Hospitalizations</td>
+<td style="text-align: left;">Boosted.Rate</td>
+<td style="text-align: right;">9.3120996</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Hospitalizations</td>
+<td style="text-align: left;">Unvaccinated.Rate</td>
+<td style="text-align: right;">19.1905675</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Hospitalizations</td>
+<td style="text-align: left;">Vaccinated.Rate</td>
+<td style="text-align: right;">12.1605954</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>covid_summary</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Outcome</span>, y <span class='op'>=</span> <span class='va'>Rate</span>, fill <span class='op'>=</span> <span class='va'>Vaccination_Status</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>stat <span class='op'>=</span> <span class='st'>"identity"</span>, position <span class='op'>=</span> <span class='st'>"dodge"</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span><span class='op'>(</span><span class='op'>~</span> <span class='va'>Outcome</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"COVID-19 Severity by Vaccination Status and Age Group"</span>,</span>
-<span>       x <span class='op'>=</span> <span class='st'>"Age Group"</span>,</span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"COVID-19 Severity by Vaccination Status"</span>,</span>
+<span>       x <span class='op'>=</span> <span class='st'>"Severity (Outcome)"</span>,</span>
 <span>       y <span class='op'>=</span> <span class='st'>"Rate per 100,000"</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>plot.margin <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>margin</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>1</span>,<span class='st'>"cm"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_manual.html'>scale_fill_manual</a></span><span class='op'>(</span>values <span class='op'>=</span> </span>
 <span>                      <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Unvaccinated.Rate"</span> <span class='op'>=</span> <span class='st'>"mediumvioletred"</span>, </span>
 <span>                        <span class='st'>"Vaccinated.Rate"</span> <span class='op'>=</span> <span class='st'>"turquoise"</span>, </span>
 <span>                        <span class='st'>"Boosted.Rate"</span> <span class='op'>=</span> <span class='st'>"goldenrod1"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
-<p><img src="index_files/figure-html5/unnamed-chunk-3-1.png" width="1152" /></p>
+<p><img src="index_files/figure-html5/unnamed-chunk-2-1.png" width="1152" /></p>
 </div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyr.tidyverse.org'>tidyr</a></span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>covid_long</span><span class='op'>$</span><span class='va'>Vaccination_Status</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='va'>covid_long</span><span class='op'>$</span><span class='va'>Vaccination_Status</span><span class='op'>)</span></span>
+<span><span class='va'>covid_long</span><span class='op'>$</span><span class='va'>Vaccination_Status</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/relevel.html'>relevel</a></span><span class='op'>(</span><span class='va'>covid_long</span><span class='op'>$</span><span class='va'>Vaccination_Status</span>, ref <span class='op'>=</span> <span class='st'>"Unvaccinated.Rate"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>vacc_status_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>Rate</span> <span class='op'>~</span> <span class='va'>Vaccination_Status</span>, data <span class='op'>=</span> <span class='va'>covid_long</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>vacc_status_model</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>
+Call:
+lm(formula = Rate ~ Vaccination_Status, data = covid_long)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+ -72.4  -48.6  -42.4   -9.0 3618.5 
+
+Coefficients:
+                                  Estimate Std. Error t value
+(Intercept)                         72.427      2.856  25.363
+Vaccination_StatusBoosted.Rate     -23.778      4.501  -5.283
+Vaccination_StatusVaccinated.Rate  -29.988      4.134  -7.254
+                                  Pr(&gt;|t|)    
+(Intercept)                        &lt; 2e-16 ***
+Vaccination_StatusBoosted.Rate    1.30e-07 ***
+Vaccination_StatusVaccinated.Rate 4.34e-13 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 174.9 on 9705 degrees of freedom
+  (1551 observations deleted due to missingness)
+Multiple R-squared:  0.005951,  Adjusted R-squared:  0.005747 
+F-statistic: 29.05 on 2 and 9705 DF,  p-value: 2.633e-13</code></pre>
+</div>
+<h2 id="data">Data</h2>
+<p>The data I am analyzing is from a hospital in Chicago, which showcases weekly rates of COVID-19 cases, hospitalizations, and deaths among people living in Chicago by vaccination and age. The dataset was last updated May 24th, 2024 and was published by the official City of Chicago website. In my research project, my independent variable is vaccination status and my dependent variable is COVID-19 severity. In the original dataset, vaccination status is categorized based on individuals immunization records, including unvaccinated, fully vaccinated, and boosted individuals. For the purpose of this analysis, vaccination status is represented by the variables ‘Unvaccinated.Rate,’ ‘Vaccinated.Rate,’ and ‘Boosted.Rate.’ I combined these into a single variable called ‘Vaccination_Status.’ Similarly, COVID-19 severity was measured through health outcomes such as the number of confirmed cases, hospital admissions, and deaths, which were also included in the original dataset. I merged these columns into a single variable called ‘Outcome.’ These outcomes were reported as rates per 100,000 individuals within each vaccination status group, and I used these rates as a metric for COVID-19 severity.</p>
+<p>I created a boxplot to visualize the dependent variable, COVID-19 severity, and to illustrate the distribution of COVID-19 rates across different outcomes. The box in the plot represents the interquartile range (IQR), which spans the 25th and 75th percentile of the data. It should also be noted that the narrow IQR within the ‘Cases’ category indicates a consistent distribution of data in this group. The line inside the box indicates the median, representing the center 50% of the data. In addition to the boxplot, I also created a table summarizing its contents because I was unsure how to use the kable or modelsummary function with a boxplot. The table displays where the percentage of case rates fall within 100,000 people.</p>
+<h2 id="results">Results</h2>
+<p>I chose unvaccinated individuals to be the baseline within my regression model because it represents the absence of vaccination and serves as the reference point. I wanted to examine the difference in COVID-19 cases between those who were unvaccinated and those who had either been vaccinated once or received the booster after their initial vaccination. Comparing vaccinated and boosted groups to the unvaccinated group helps illustrate the benefits of vaccination in reducing severity.</p>
+<p>I created a barplot to depict COVID-19 severity by vaccination status. This visual helps people examine how drastically individuals were impacted by the COVID-19 virus according to their vaccination status. I chose to convert the data from a wide format with separate columns for each vaccination rate and peoples outcome, into a long format with distinct columns for ‘Vaccination_Status’ and ‘Outcome.’ I then filtered the data so that I only kept the rows where the Outcome column had values of “Hospitalizations”, “Cases”, and “Deaths”. ‘Rate’ was an additional column that I utilized because it quantifies the occurrence of a specific outcome, which would be hospitalizations, cases, or deaths. After I grouped the data by ‘Vaccination_Status’ and ‘Outcome’, I used the summarize() function to calculate the mean of the ‘Rate’ variable for each group. After having created the three columns (Vaccination_Status, Outcome, and Rate), I used this data to create a barplot. The results of this bar plot is also reflected in the table I made using the kable function.</p>
+<p>The regression model I created indicates that the mean severity rate for people who are unvaccinated is 72.42. In this context, the mean severity rate represents the average rate of a specific COVID-19 outcome, which would be cases, hospitalizations, or deaths per 100,000 people. Therefore, as displayed in the regression model, the intercept is 72.42, which indicates that the mean severity rate for unvaccinated individuals is 72.42 cases/hospitalizations/deaths per 100,000 people. The coefficient of -29.98 for vaccinated individuals indicates that vaccinated people in the sample, on average, have a 29.98 lower severity rate than unvaccinated individuals. The p-value for this data is also very small, displaying a value of 4.34e-13 (less than 0.05), thus confirming the difference between vaccinated and unvaccinated people is statistically significant. The coefficient of -23.77 indicates that individuals who received a booster vaccination have a 23.77 lower severity rate compared to those who are unvaccinated. The p-value is 1.30e-07, meaning that the effect of being boosted is highly significant. The standard of error represents the estimated uncertainty around the coefficient for each predictor variable. The standard of error for ‘Vaccinated.Rate’ is 4.134, while the standard of error for ‘Boosted.Rate’ is 4.501. The p-value also tests the null hypothesis, which suggests that there is no relationship between the independent variable (vaccination status) and dependent variable (COVID-19 severity).</p>
+<p>As the p-values for both vaccinated and boosted individuals are smaller than 0.05, we would reject the null hypothesis and conclude that the two values are statistically significant predictors of lower COVID-19 severity compared to unvaccinated individuals. Despite the p-values indicating that there is a statistical relationship between the dependent and independent variables, this does not mean that there is a causal relationship between the two. There are most likely confounding variables that are unaccounted for, such as age, pre-existing health conditions, socioeconomic status. We need more evidence to determine whether there is a true causal relationship. For instance, it may be helpful to examine data that has been collected over a longer period of time. Perhaps with data from both before and after the intervention, which would be the vaccine. I am also in the midst of taking a health policy course, where we discussed Randomized Control Trials. It may be beneficial to determine a causal relationship between vaccinations and COVID-19 severity when people have been randomly assigned to a vaccinated and unvaccinated group, thus controlling for confounding variables.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>After conducting a series of analyses—including a box plot of the dependent variable, a bar plot illustrating COVID-19 severity by vaccination status, and a regression model to further investigate the results—I found that both vaccinated and boosted individuals in the dataset experienced lower severity rates than unvaccinated individuals. These findings support my hypothesis that vaccinated individuals experience less severe outcomes from COVID-19 compared to those who are unvaccinated. The p-values for both vaccinated and boosted groups are smaller than 0.05, allowing me to reject the null hypothesis and conclude that vaccination is a statistically significant predictor of lower COVID-19 severity compared to unvaccinated individuals. Therefore, this suggests that receiving a vaccination or booster shot may reduce the likelihood of contracting the virus, being hospitalized, or dying from COVID-19. However, while the results are statistically significant, it’s important to note that correlation does not imply causation. My analysis is limited by the potential influence of confounding variables such as age, socioeconomic status, and pre-existing health conditions, which were not accounted for in the study. In addition to this, the dataset only includes data from a single hospital in Chicago, which limits the generalizability of the results. If I were to conduct this study again, I would collect data that is more comprehensive, possibly from multiple hospitals and expand the study period to capture both pre and post intervention data.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
